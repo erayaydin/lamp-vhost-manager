@@ -6,7 +6,7 @@
 DOCROOT="/var/www"
 
 # Default log root (change if neccessary)
-LOGROOT="/var/log/apache2"
+LOGROOT="/var/log/httpd"
 
 # Directory name and domain name if $TLD is empty (enter to avoid having to use this argument)
 NAME=
@@ -238,13 +238,9 @@ QUERY_INPUT
 	echo "Ommit creating MySQL user and database..."
     fi
 
-    # Enable virtual host
-    echo "Running \"a2ensite $NAME\"..."
-    a2ensite $NAME>/dev/null 2>&1
-
-    # Restart apache service
-    echo "Running \"service apache2 restart\"..."
-    service apache2 restart>/dev/null 2>&1
+    # Restart httpd service
+    echo "Running \"service httpd restart\"..."
+    service httpd restart>/dev/null 2>&1
 
     # Print results
     echo "PROJECT PATH: $VHOSTDOCROOT"
@@ -322,13 +318,9 @@ QUERY_INPUT
 	echo "Ommit removing MySQL user and database..."
     fi
 
-    # Disable virtual host
-    echo "Running \"a2dissite $NAME\"..."
-    a2dissite $NAME >/dev/null 2>&1
-
-    # Restart apache service
-    echo "Running \"service apache2 restart\"..."
-    service apache2 restart>/dev/null 2>&1
+    # Restart httpd service
+    echo "Running \"service httpd restart\"..."
+    service httpd restart>/dev/null 2>&1
 }
 
 # We need admin privileges to proceed
@@ -428,7 +420,7 @@ else
 fi
 
 # Virtual host file
-VHOSTFILE="/etc/apache2/sites-available/$NAME.conf"
+VHOSTFILE="/etc/httpd/conf.d/$NAME.conf"
 
 # Virtual host document root
 VHOSTDOCROOT="$DOCROOT/$NAME"
