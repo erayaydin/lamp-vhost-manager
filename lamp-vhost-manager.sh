@@ -4,10 +4,10 @@
 # License: GPLv2
 
 # Default document root (change if neccessary)
-DOCROOT="/var/www"
+DOCROOT="/srv/http"
 
 # Default log root (change if neccessary)
-LOGROOT="/var/log/apache2"
+LOGROOT="/var/log/httpd"
 
 # Directory name and domain name if $TLD is empty (enter to avoid having to use this argument)
 NAME=
@@ -201,6 +201,7 @@ EOF
     if [ ! -f $VHOSTFILE ]
     then
 	echo "Creating \"$VHOSTFILE\"..."
+  touch $VHOSTFILE
 cat > $VHOSTFILE <<EOF
 <VirtualHost *:80>
     ServerAdmin webmaster@$VHOSTDOMAIN
@@ -244,8 +245,8 @@ QUERY_INPUT
     a2ensite $NAME>/dev/null 2>&1
 
     # Restart apache service
-    echo "Running \"service apache2 restart\"..."
-    service apache2 restart>/dev/null 2>&1
+    echo "Running \"systemctl restart httpd\"..."
+    systemctl restart httpd>/dev/null 2>&1
 
     # Print results
     echo "PROJECT PATH: $VHOSTDOCROOT"
@@ -328,8 +329,8 @@ QUERY_INPUT
     a2dissite $NAME >/dev/null 2>&1
 
     # Restart apache service
-    echo "Running \"service apache2 restart\"..."
-    service apache2 restart>/dev/null 2>&1
+    echo "Running \"systemctl restart httpd\"..."
+    systemctl restart httpd>/dev/null 2>&1
 }
 
 # We need admin privileges to proceed
@@ -429,7 +430,7 @@ else
 fi
 
 # Virtual host file
-VHOSTFILE="/etc/apache2/sites-available/$NAME.conf"
+VHOSTFILE="/etc/httpd/conf/vhosts/$NAME.conf"
 
 # Virtual host document root
 VHOSTDOCROOT="$DOCROOT/$NAME"
