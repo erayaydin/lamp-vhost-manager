@@ -1,5 +1,6 @@
 #!/bin/bash
 # Author: Marko Martinović
+# Developer: Eray Aydın
 # License: GPLv2
 
 # Default document root (change if neccessary)
